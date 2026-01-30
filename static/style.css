@@ -1,0 +1,498 @@
+/* ============================================
+   🎨 カラーテーマ設定
+   ============================================ */
+:root {
+    /* --- アクセントカラー（信頼青・控えめ） --- */
+    --neon-cyan:        #2d8cd3;   /* 公的ブルー */
+    --neon-purple:      #546a8f;   /* くすみ紫（影用） */
+    --neon-green:       #5cbf8f;   /* 安心感ミント */
+    --neon-pink:        #d97a8c;   /* 緊急色として弱く使用 */
+
+    /* --- 背景：白基調メイン + 黒エッジ動的 --- */
+    --bg-main:          #f7f9fc;   /* 基調になる白 */
+    --bg-dark:          #0a0a0a;   /* 外周・動的背景用 */
+    --bg-grad-start:    #101214;   /* 黒〜濃灰グラデ（動き部分） */
+    --bg-grad-end:      #000;
+
+    --bg-panel:         rgba(255, 255, 255, 0.85); /* 白パネル */
+    --bg-panel-soft:    rgba(255, 255, 255, 0.65);
+
+    /* --- テキスト（白基調で読みやすい階調） --- */
+    --text-main:        #1d1f23;   /* しっかり黒 */
+    --text-light:       #3a4048;
+    --text-sub:         #4f6fa6;   /* 災害UIの青サブ */
+    --text-muted:       #8a8f98;
+    --placeholder:      #a0a5ae;
+    --text-dark:        #0c0e11;
+
+    /* --- glow：黒側のみ軽く --- */
+    --glow-cyan:        rgba(45, 140, 211, 0.35);
+    --glow-cyan-soft:   rgba(45, 140, 211, 0.18);
+    --glow-purple:      rgba(84, 106, 143, 0.30);
+    --glow-purple-soft: rgba(84, 106, 143, 0.15);
+
+    /* --- 入力欄 glow（ほんのり青） --- */
+    --input-glow-cyan:     rgba(45, 140, 211, 0.22);
+    --input-glow-purple:   rgba(84, 106, 143, 0.18);
+
+    /* --- エラー / 警告（避難所アプリ基準） --- */
+    --error-bg:        rgba(200, 40, 40, 0.15); 
+    --error-border:    rgba(200, 40, 40, 0.55);
+    --error-text:      #b21f2d;
+
+    --warn-bg:         rgba(230, 180, 30, 0.18);
+    --warn-border:     rgba(230, 180, 30, 0.65);
+    --warn-text:       #b89f35;
+
+    /* --- テーブル枠（薄い青） --- */
+    --border-cyan:    rgba(45, 140, 211, 0.30);
+
+    /* --- グラデーション（白中心 → 黒外縁） --- */
+    --grad-main:      linear-gradient(90deg, #f7f9fc, #dbe7f4, #2d8cd3);
+    --grad-multi:     linear-gradient(90deg, #ffffff, #dbe7f4, #2d8cd3, #101214);
+}
+
+
+/* ================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Noto Sans JP', system-ui, sans-serif;
+    background: radial-gradient(circle at 20% 20%, var(--bg-grad-start), var(--bg-grad-end) 75%);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 背景エフェクト */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(circle at 10% 20%, rgba(0, 255, 255, 0.16), transparent 60%),
+        radial-gradient(circle at 80% 80%, rgba(255, 0, 255, 0.16), transparent 60%),
+        radial-gradient(circle at 50% 10%, rgba(0, 128, 255, 0.12), transparent 60%);
+    pointer-events: none;
+    mix-blend-mode: screen;
+    filter: blur(2px);
+}
+
+/* 中央コンテナ */
+.app-wrapper {
+    width: 100%;
+    max-width: 450px;
+    padding: 28px 24px;
+    background: var(--bg-panel);
+    border-radius: 18px;
+    border: 1px solid var(--border-cyan);
+    backdrop-filter: blur(14px);
+    box-shadow:
+        0 0 28px var(--glow-cyan-soft),
+        0 0 48px var(--glow-purple-soft);
+}
+/* ============================================
+   ◆ 入力フォーム（ラベル + 入力欄）
+   ============================================ */
+
+.form-group {
+    margin-bottom: 26px;
+    position: relative;
+}
+
+.form-label {
+    font-size: 0.9rem;
+    color: var(--text-sub);
+    margin-bottom: 8px;
+    display: block;
+    letter-spacing: 1px;
+    text-shadow:
+        0 0 8px var(--glow-cyan),
+        0 0 12px var(--glow-purple-soft);
+}
+
+/* 入力フィールド */
+.form-input {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 1.05rem;
+    background: var(--bg-panel-soft);
+
+    box-shadow:
+        inset 0 0 18px var(--input-glow-cyan),
+        inset 0 0 32px var(--input-glow-purple);
+
+    border-radius: 14px;
+    border: 2px solid transparent;
+
+    background-image:
+        linear-gradient(145deg, var(--bg-panel-soft), #05050a),
+        var(--grad-multi);
+    background-clip: padding-box, border-box;
+
+    color: var(--text-light);
+    outline: none;
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.2s ease,
+        border 0.3s ease,
+        background-image 0.25s ease;
+}
+
+.form-input::placeholder {
+    color: var(--placeholder);
+    text-shadow: 0 0 6px rgba(100, 180, 255, 0.3);
+}
+
+/* フォーカス時（めちゃ豪華） */
+.form-input:focus {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 0 20px var(--glow-cyan),
+        0 0 32px var(--glow-purple),
+        inset 0 0 26px var(--glow-cyan-soft);
+
+    background-image:
+        linear-gradient(145deg, #0c0c12, #05050a),
+        var(--grad-multi);
+}
+
+/* ▼ 入力中の発光リング（アニメーション） */
+.form-group:focus-within::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: 18px;
+
+    background: linear-gradient(
+        90deg,
+        var(--glow-cyan),
+        var(--glow-purple),
+        var(--neon-pink)
+    );
+
+    filter: blur(14px);
+    opacity: 0.8;
+
+    z-index: -1;
+    animation: neonPulse 2.4s infinite ease-in-out;
+}
+
+@keyframes neonPulse {
+    0%   { opacity: 0.4; transform: scale(1); }
+    50%  { opacity: 0.9; transform: scale(1.03); }
+    100% { opacity: 0.4; transform: scale(1); }
+}
+
+/* ============================================
+   ⚡ タイトル（ネオンの見出し）
+   ============================================ */
+.title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 22px;
+    color: var(--neon-cyan);
+    text-shadow:
+        0 0 10px var(--glow-cyan),
+        0 0 20px var(--glow-purple-soft);
+    letter-spacing: 2px;
+}
+
+/* ============================================
+   ⚡ 右上の ❔ 丸アイコン
+   ============================================ */
+.floating-help-btn {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+
+    color: var(--text-dark);
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    box-shadow:
+        0 0 16px var(--glow-cyan),
+        0 0 28px var(--glow-purple);
+
+    transition:
+        transform 0.15s ease,
+        filter 0.15s ease,
+        box-shadow 0.2s ease;
+}
+
+.floating-help-btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    filter: brightness(1.1);
+}
+
+.floating-help-btn:active {
+    transform: scale(0.95);
+}
+/* ============================================
+   ⚡ 送信ボタン（入力ページのメインボタン）
+   ============================================ */
+.submit-btn {
+    width: 100%;
+    padding: 12px 15px;
+    margin-top: 10px;
+    border-radius: 999px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    
+    background-image: var(--grad-main);
+    color: var(--text-dark);
+    cursor: pointer;
+
+    box-shadow:
+        0 0 20px var(--glow-cyan),
+        0 0 32px var(--glow-purple);
+
+    transition:
+        transform 0.15s,
+        filter 0.15s,
+        box-shadow 0.15s;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px) scale(1.02);
+    filter: brightness(1.08);
+}
+
+.submit-btn:active {
+    transform: translateY(1px) scale(0.98);
+}
+
+/* ============================================
+   ⚡ 一般的なボタン（戻るなど）
+   ============================================ */
+.btn {
+    display: block;
+    width: 180px;
+    margin: 20px auto 0;
+    padding: 12px;
+    text-align: center;
+
+    border: none;
+    border-radius: 999px;
+
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+
+    background-image: var(--grad-main);
+    color: var(--text-dark);
+
+    box-shadow:
+        0 0 18px var(--glow-cyan),
+        0 0 28px var(--glow-purple);
+
+    transition: transform 0.15s ease, opacity 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px) scale(1.04);
+    opacity: 0.95;
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+/* ============================================
+   ⚡ リンクボタン（aタグ）
+   ============================================ */
+.btn-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-image: var(--grad-main);
+    color: var(--text-dark);
+    text-decoration: none;
+    border-radius: 6px;
+    border: none;
+    font-weight: bold;
+    text-align: center;
+    transition: transform 0.15s ease;
+}
+
+.btn-link:hover {
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   ⚡ フッター
+   ============================================ */
+.app-footer {
+    margin-top: 16px;
+    font-size: 0.75rem;
+    text-align: center;
+    color: var(--text-muted);
+}
+/* ============================================
+   ⚡ 検索結果ページ（コンテナ）
+   ============================================ */
+
+.container {
+    width: 100%;
+    max-width: 860px;
+    margin: 40px auto;
+    padding: 32px;
+
+    background: var(--bg-panel);
+    border-radius: 20px;
+    border: 1px solid var(--border-cyan);
+
+    box-shadow:
+        0 0 30px var(--glow-cyan-soft),
+        0 0 40px var(--glow-purple-soft);
+
+    backdrop-filter: blur(16px);
+}
+
+/* タイトル */
+.container h1 {
+    text-align: center;
+    color: var(--neon-cyan);
+    font-size: 2rem;
+    margin-bottom: 26px;
+
+    text-shadow:
+        0 0 12px var(--glow-cyan),
+        0 0 18px var(--glow-purple-soft);
+}
+
+/* ============================================
+   ⚡ 入力情報（青ネオン枠）
+   ============================================ */
+
+.notice {
+    padding: 18px;
+    background: rgba(0, 20, 30, 0.45);
+    border-radius: 14px;
+
+    border: 1px solid var(--glow-cyan);
+    color: var(--text-light);
+    margin-bottom: 20px;
+
+    box-shadow:
+        0 0 18px var(--glow-cyan-soft),
+        inset 0 0 14px var(--glow-cyan-soft);
+}
+
+.hidden { display: none; }
+
+/* ============================================
+   ⚡ エラーメッセージ（赤ネオン）
+   ============================================ */
+
+.error {
+    padding: 16px;
+    background: var(--error-bg);
+    border-radius: 12px;
+
+    border: 1px solid var(--error-border);
+    color: var(--error-text);
+
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 600;
+
+    box-shadow:
+        0 0 18px rgba(255, 0, 90, 0.5),
+        inset 0 0 16px rgba(255, 0, 90, 0.35);
+}
+
+/* ============================================
+   ⚡ ステータス（黄色ネオン）
+   ============================================ */
+
+#status {
+    padding: 14px;
+    margin-bottom: 18px;
+    background: var(--warn-bg);
+    border-radius: 12px;
+
+    border: 1px solid var(--warn-border);
+    color: var(--warn-text);
+    text-align: center;
+
+    box-shadow:
+        0 0 14px rgba(240, 210, 80, 0.6),
+        inset 0 0 10px rgba(240, 210, 80, 0.35);
+}
+/* ============================================
+   ⚡ テーブル（ネオン枠つき）
+   ============================================ */
+
+.table-wrap {
+    overflow-x: auto;
+    margin-bottom: 22px;
+}
+
+#resultTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+
+    background: rgba(5, 5, 10, 0.75);
+    border-radius: 12px;
+    overflow: hidden;
+
+    border: 1px solid var(--border-cyan);
+
+    box-shadow:
+        0 0 20px var(--glow-cyan-soft),
+        inset 0 0 16px var(--glow-cyan-soft);
+}
+
+/* ============================================
+   ⚡ テーブルヘッダー（グラデーション）
+   ============================================ */
+
+#resultTable thead tr {
+    background: var(--grad-main);
+}
+
+#resultTable th {
+    padding: 12px;
+    color: var(--text-dark);
+    font-weight: bold;
+    text-align: left;
+}
+
+/* ============================================
+   ⚡ テーブル行
+   ============================================ */
+
+#resultTable td {
+    padding: 10px 12px;
+    color: var(--text-main);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* 行 hover → ネオン発光 */
+#resultTable tbody tr:hover {
+    background: rgba(34, 211, 238, 0.12);
+    box-shadow: 0 0 10px var(--glow-cyan);
+    transform: translateY(-2px);
+}

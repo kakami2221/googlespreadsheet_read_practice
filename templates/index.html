@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>にげてきまっし</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>にげてきまっし</h1>
+        <form action="/search" method="post" class="form-box">
+            <label>名前</label>
+            <input type="text" name="name" required>
+
+            <label>住所</label>
+            <input type="text" name="address" required>
+
+            <label>電話番号</label>
+            <input type="text" name="phone" required>
+
+            <button type="submit">検索する</button>
+        </form>
+    </div>
+</body>
+</html>

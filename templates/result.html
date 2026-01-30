@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>検索結果</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>検索結果</h1>
+
+        <div class="input-info">
+            <p><strong>入力情報：</strong></p>
+            <ul>
+                <li>名前：{{ name }}</li>
+                <li>住所：{{ address }}</li>
+                <li>電話番号：{{ phone }}</li>
+            </ul>
+        </div>
+
+        {% if result %}
+            <h2>一致したデータ：</h2>
+            <table>
+                <tr>
+                    <th>名前</th>
+                    <th>住所</th>
+                    <th>電話番号</th>
+                    {% for key in result[0].keys() %}
+                        {% if key not in ['名前','住所','電話番号'] %}
+                            <th>{{ key }}</th>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                {% for r in result %}
+                <tr>
+                    <td>{{ r['名前'] }}</td>
+                    <td>{{ r['住所'] }}</td>
+                    <td>{{ r['電話番号'] }}</td>
+                    {% for key, value in r.items() %}
+                        {% if key not in ['名前','住所','電話番号'] %}
+                            <td>{{ value }}</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p class="no-result">一致する住所が見つかりませんでした。</p>
+        {% endif %}
+
+        <a href="/" class="back-btn">戻る</a>
+    </div>
+</body>
+</html>
